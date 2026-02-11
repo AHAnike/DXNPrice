@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DXN Animated Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(135deg,#000,#111,#000);
+color:white;
+overflow-x:hidden;
+}
+
+/* Smooth fade animation */
+@keyframes fadeUp{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+.container{
+width:95%;
+max-width:1100px;
+margin:auto;
+padding:20px;
+animation:fadeUp 1s ease;
+}
+
+h1{
+text-align:center;
+font-size:32px;
+background:linear-gradient(90deg,gold,orange);
+-webkit-background-clip:text;
+color:transparent;
+margin-bottom:20px;
+animation:fadeUp 1.2s ease;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(15px);
+padding:15px;
+border-radius:15px;
+margin-bottom:20px;
+box-shadow:0 0 20px rgba(255,215,0,0.2);
+animation:fadeUp 1.3s ease;
+transition:0.3s;
+}
+
+.card:hover{
+box-shadow:0 0 30px rgba(255,215,0,0.4);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+font-size:14px;
+}
+
+th,td{
+padding:6px;
+text-align:center;
+}
+
+th{color:gold;}
+
+input{
+width:60px;
+padding:5px;
+text-align:center;
+border-radius:5px;
+border:none;
+transition:0.3s;
+}
+
+input:focus{
+outline:none;
+box-shadow:0 0 10px gold;
+}
+
+button{
+padding:8px 15px;
+border:none;
+border-radius:20px;
+background:gold;
+color:black;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:orange;
+transform:scale(1.05);
+}
+
+/* Progress bar */
+.progress-container{
+width:100%;
+background:#333;
+border-radius:20px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.progress-bar{
+height:20px;
+width:0%;
+background:linear-gradient(90deg,gold,orange);
+transition:width 0.8s ease-in-out;
+}
+
+/* Position badge animation */
+.badge{
+display:inline-block;
+padding:6px 15px;
+border-radius:20px;
+background:gold;
+color:black;
+font-weight:bold;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{box-shadow:0 0 5px gold;}
+50%{box-shadow:0 0 20px gold;}
+100%{box-shadow:0 0 5px gold;}
+}
+
+/* Print only summary */
+@media print {
+body * {visibility:hidden;}
+#summarySection, #summarySection * {visibility:visible;}
+#summarySection {
+position:absolute;
+left:0;
+top:0;
+width:100%;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>DXN Business Dashboard</h1>
+
+<div class="card">
+<h3>Member Name</h3>
+<input type="text" id="memberName" placeholder="Enter Member Name">
+</div>
+
+<div class="card">
+<h3>Product Selection</h3>
+<table>
+<tr>
+<th>Product</th>
+<th>PV</th>
+<th>DP</th>
+<th>SV</th>
+<th>Qty</th>
+</tr>
+<tbody id="productList"></tbody>
+</table>
+</div>
+
+<div class="card" id="summarySection">
+<h3>Business Summary</h3>
+
+<p><strong>Member:</strong> <span id="displayMember"></span></p>
+<p><strong>Date:</strong> <span id="currentDate"></span></p>
+
+<hr>
+
+<p>Total PV: <span id="totalPV">0</span></p>
+<p>Total DP: ৳ <span id="totalDP">0</span></p>
+<p>Total SV: <span id="totalSV">0</span></p>
+
+<p>Position: <span id="position">None</span></p>
+
+<div class="progress-container">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<hr>
+
+<div id="summaryList"></div>
+
+</div>
+
+<div class="card">
+<button onclick="window.print()">Print Summary</button>
+</div>
+
+</div>
+
+<script>
+
+const products=[
+{name:"Lingzhi Coffee 3 in 1",pv:475,dp:2050,sv:813},
+{name:"Lingzhi Coffee 2 in 1",pv:350,dp:990,sv:424},
+{name:"DXN Lemonzhi",pv:175,dp:745,sv:286},
+{name:"DXN Zhi Mocha ",pv:290,dp:1260,sv:482},
+{name:"Cordyceps Coffee",pv:450,dp:1940,sv:745},
+{name:"Lion's Mane Powder",pv:390,dp:1400,sv:614},
+{name:"Cordyceps Powder",pv:760,dp:2730,sv:1197},
+{name:"RG Powder-50 g",pv:1070,dp:3455,sv:1450},
+{name:"GL Powder-80 g",pv:770,dp:2550,sv:1071},
+{name:"Spirulina Cereal",pv:540,dp:2650,sv:1112},
+{name:"Cordyceps Cereal",pv:825,dp:3545,sv:1490},
+{name:"Reishi Gano Tea",pv:90,dp:380,sv:145},
+{name:"Masala Tea",pv:60,dp:250,sv:96},
+{name:"DXN Cocozhi",pv:525,dp:2245,sv:857},
+{name:"Neem Facewash",pv:45,dp:190,sv:73},
+{name:"Papaya Scrub",pv:55,dp:235,sv:90},
+{name:"Apricot Scrub",pv:55,dp:235,sv:90},
+{name:"DXN Hair Oil",pv:135,dp:590,sv:228},
+{name:"Aloe Facial Scrub",pv:190,dp:1165,sv:446}
+];
+
+const levels=[
+{pv:58500,percent:25},
+{pv:42250,percent:18},
+{pv:26000,percent:15},
+{pv:13000,percent:12},
+{pv:3900,percent:9},
+{pv:1300,percent:6}
+];
+
+function loadProducts(){
+let html="";
+products.forEach((p,i)=>{
+html+=`
+<tr>
+<td>${p.name}</td>
+<td>${p.pv}</td>
+<td>${p.dp}</td>
+<td>${p.sv}</td>
+<td><input type="number" min="0" value="0" onchange="calculate()" id="qty${i}"></td>
+</tr>`;
+});
+document.getElementById("productList").innerHTML=html;
+}
+
+function calculate(){
+let totalPV=0,totalDP=0,totalSV=0,summary="";
+
+products.forEach((p,i)=>{
+let qty=parseInt(document.getElementById("qty"+i).value)||0;
+if(qty>0){
+totalPV+=p.pv*qty;
+totalDP+=p.dp*qty;
+totalSV+=p.sv*qty;
+summary+=`${p.name} × ${qty} | PV:${p.pv*qty} | DP:${p.dp*qty} | SV:${p.sv*qty}<br>`;
+}
+});
+
+document.getElementById("summaryList").innerHTML=summary;
+document.getElementById("totalPV").innerText=totalPV;
+document.getElementById("totalDP").innerText=totalDP;
+document.getElementById("totalSV").innerText=totalSV;
+
+let percent=0,nextTarget=1300;
+
+for(let l of levels){
+if(totalPV>=l.pv){percent=l.percent;break;}
+}
+
+if(percent>0){
+for(let i=levels.length-1;i>=0;i--){
+if(levels[i].percent===percent && i>0){
+nextTarget=levels[i-1].pv;
+}
+}
+}
+
+let progress=(totalPV/nextTarget)*100;
+if(progress>100) progress=100;
+
+document.getElementById("progressBar").style.width=progress+"%";
+
+document.getElementById("position").innerHTML=
+percent>0? `<span class="badge">${percent}% Achieved</span>`:"No Position";
+
+document.getElementById("displayMember").innerText=
+document.getElementById("memberName").value;
+}
+
+document.getElementById("currentDate").innerText=new Date().toLocaleDateString();
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
