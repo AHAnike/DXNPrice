@@ -69,25 +69,102 @@ function searchProducts() {
 document.getElementById("memberName").addEventListener("input", (e) => {
     document.getElementById("showName").textContent = e.target.value || "Guest";
 });
-const officialProducts = [{name:"Lingzhi Coffee 3 in 1",pv:475,dp:2050,sv:813},
-{name:"Lingzhi Coffee 2 in 1",pv:350,dp:990,sv:424},
-{name:"DXN Lemonzhi",pv:175,dp:745,sv:286},
-{name:"DXN Zhi Mocha ",pv:290,dp:1260,sv:482},
-{name:"Cordyceps Coffee",pv:450,dp:1940,sv:745},
-{name:"Lion's Mane Powder",pv:390,dp:1400,sv:614},
-{name:"Cordyceps Powder",pv:760,dp:2730,sv:1197},
-{name:"RG Powder-50 g",pv:1070,dp:3455,sv:1450},
-{name:"GL Powder-80 g",pv:770,dp:2550,sv:1071},
-{name:"Spirulina Cereal",pv:540,dp:2650,sv:1112},
-{name:"Cordyceps Cereal",pv:825,dp:3545,sv:1490},
-{name:"Reishi Gano Tea",pv:90,dp:380,sv:145},
-{name:"Masala Tea",pv:60,dp:250,sv:96},
+const officialProducts = [
+{name:"DXN RG Powder-50 g",pv:1070,dp:3455,sv:1450},
+
+{name:"DXN GL Powder-80 g",pv:770,dp:2550,sv:1071},
+
+{name:"DXN Corsyceps Powder-30 g",pv:760,dp:2730,sv:1197},
+
+{name:"DXN Lion's Mane Powder-30 g",pv:390,dp:1400,sv:614},
+
+{name:"DXN White Coffee Zino",pv:290,dp:2125,sv:815},
+
+{name:"DXN Spirulina Cereal",pv:540,dp:2650,sv:1112},
+
+{name:"DXN Cordyceps Cereal",pv:825,dp:3545,sv:1490},
+
+{name:"DXN Lemonzhi",pv:175,dp:745,sv:287},
+
+{name:"DXN Zhi Mocha",pv:290,dp:1260,sv:482},
+
+{name:"DXN Zhi Yobite 30 g",pv:125,dp:555,sv:236},
+
+{name:"DXN Lina Yobite 30 g",pv:125,dp:555,sv:236},
+
+{name:"DXN Lingzhi Black Coffee ",pv:350,dp:990,sv:424},
+
+{name:"DXN Lingzhi Coffee 3 in 1",pv:395,dp:1710,sv:727},
+
+{name:"DXN Cordyceps Coffee",pv:340,dp:1480,sv:611},
+
 {name:"DXN Cocozhi",pv:525,dp:2245,sv:857},
-{name:"Neem Facewash",pv:45,dp:190,sv:73},
-{name:"Papaya Scrub",pv:55,dp:235,sv:90},
-{name:"Apricot Scrub",pv:55,dp:235,sv:90},
+
+{name:"DXN Lingzhi Coffee 3 in 1 Lite",pv:365,dp:1555,sv:658},
+
+{name:"DXN Eu Cafe",pv:300,dp:1500,sv:573},
+
+{name:"DXN Vita Cafe",pv:345,dp:1710,sv:655},
+
+{name:"DXN Reishi Gano Tea",pv:90,dp:380,sv:145},
+
+{name:"DXN Masala Tea",pv:60,dp:250,sv:96},
+
+{name:"DXN Talcum Powder",pv:225,dp:1190,sv:453},
+
+{name:"DXN Ganozhi Soap",pv:65,dp:390,sv:149},
+
+{name:"DXN Aloe Vera Bathing Bar",pv:35,dp:155,sv:59},
+
+{name:"DXN A. Vera 8 Bar Family Pack",pv:95,dp:410,sv:157},
+
+{name:"Neem Bathing Bar",pv:35,dp:155,sv:59},
+
+{name:"Neem Bathing Bar Family Pack",pv:95,dp:410,sv:157},
+
+{name:"DXN Ganozhi Toothpaste-150g",pv:110,dp:835,sv:318},
+
+{name:"DXN Ganozhi Toothpaste-75g",pv:70,dp:535,sv:204},
+
+{name:"DXN Ganozhi Plus Toothpaste-150g",pv:135,dp:700,sv:270},
+
+{name:"DXN Ganozhi Plus Toothpaste-75g",pv:85,dp:470,sv:180},
+
+{name:"Massage Oil",pv:155,dp:1175,sv:485},
+
 {name:"DXN Hair Oil",pv:135,dp:590,sv:228},
-{name:"Aloe Facial Scrub",pv:190,dp:1165,sv:446}
+
+{name:"DXN Aloe V Cleansing Gel",pv:145,dp:1090,sv:415},
+
+{name:"DXN Aloe V Hand & Body Lotion",pv:180,dp:1275,sv:490},
+
+{name:"DXN Aloe V Facial Scrub",pv:190,dp:1165,sv:446},
+
+{name:"DXN Papaya Facial Scrub",pv:55,dp:235,sv:90},
+
+{name:"DXN Neem Facewash",pv:45,dp:190,sv:73},
+
+{name:"DXN Apricot Facial Scrub",pv:55,dp:235,sv:90},
+
+{name:"DXN Vegi Cleen",pv:170,dp:885,sv:350},
+
+{name:"DXN Apple Enzyme Drink",pv:570,dp:2460,sv:937},
+
+{name:"DXN Lion's Mane Coffee",pv:390,dp:1690,sv:644},
+
+{name:"DXN Apple Fermented Jam",pv:225,dp:960,sv:368},
+
+{name:"DXN Lion's Mane Oocha",pv:395,dp:1715,sv:654},
+
+{name:"DXN Spirudle",pv:190,dp:965,sv:372},
+
+{name:"DXN Lions Mane Lemon Matcha",pv:305,dp:1305,sv:496},
+
+{name:"DXN Oocha Noodle",pv:175,dp:885,sv:341},
+
+{name:"DXN Goji Berries",pv:625,dp:2690,sv:902},
+
+{name:"DXN OOCHA NOODLE(T Y F)",pv:235,dp:1240,sv:479}
 ];
 
 const unofficialProducts = [
@@ -304,4 +381,5 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("memberName").addEventListener("input", () => {
         document.getElementById("showName").textContent = document.getElementById("memberName").value || "-";
     });
+
 });
